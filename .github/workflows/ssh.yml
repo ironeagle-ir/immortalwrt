@@ -1,4 +1,4 @@
-name: Build Linksys Wrt1900acs OpenWrt
+name: MY Linksys Wrt1900acs OpenWrt
 
 on:
   repository_dispatch:
