@@ -19,8 +19,8 @@ on:
       required: true
       default: 'false'
       
-  schedule:
-   - cron: 0 16 * * *
+#  schedule:
+#   - cron: 0 16 * * *
 env:
   REPO_URL: https://github.com/immortalwrt/immortalwrt
   REPO_BRANCH: openwrt-21.02
