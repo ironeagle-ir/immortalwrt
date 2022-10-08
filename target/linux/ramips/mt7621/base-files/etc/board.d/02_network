@@ -27,6 +27,9 @@ ramips_setup_interfaces()
 	hiwifi,hc5962|\
 	xiaomi,mi-router-3-pro|\
 	xiaomi,mi-router-ac2100|\
+	xiaomi,mi-router-cr6606|\
+	xiaomi,mi-router-cr6608|\
+	xiaomi,mi-router-cr6609|\
 	xiaomi,redmi-router-ac2100)
 		ucidef_set_interfaces_lan_wan "lan1 lan2 lan3" "wan"
 		;;
@@ -37,6 +40,7 @@ ramips_setup_interfaces()
 	asiarf,ap7621-nv1|\
 	glinet,gl-mt1300|\
 	jcg,q20|\
+	jdcloud,re-sp-01b|\
 	lenovo,newifi-d1|\
 	mikrotik,routerboard-m33g|\
 	xiaomi,mi-router-3g|\
@@ -68,6 +72,7 @@ ramips_setup_interfaces()
 	ubnt,edgerouter-x-sfp)
 		ucidef_set_interfaces_lan_wan "eth1 eth2 eth3 eth4 eth5" "eth0"
 		;;
+	yuncore,ax820|\
 	zyxel,nr7101)
 		ucidef_set_interfaces_lan_wan "lan" "wan"
 		;;
@@ -140,6 +145,12 @@ ramips_setup_macs()
 	zbtlink,zbt-wg3526-32m)
 		label_mac=$(mtd_get_mac_binary factory 0x4)
 		;;
+	jdcloud,re-sp-01b)
+		local index="$(find_mtd_index "config")"
+		label_mac=$(macaddr_canonicalize $(dd if="/dev/mtd${index}" bs=12 skip=17449 iflag=skip_bytes count=1 2>/dev/null))
+		lan_mac=$label_mac
+		wan_mac=$label_mac
+		;;
 	linksys,e5600|\
 	linksys,ea7300-v1|\
 	linksys,ea7300-v2|\
@@ -156,6 +167,9 @@ ramips_setup_macs()
 		label_mac=$(cat "/sys/firmware/mikrotik/hard_config/mac_base")
 		wan_mac=$label_mac
 		lan_mac=$(macaddr_add $label_mac 1)
+		;;
+	yuncore,ax820)
+		label_mac=$(mtd_get_mac_binary Factory 0x4)
 		;;
 	esac
 
